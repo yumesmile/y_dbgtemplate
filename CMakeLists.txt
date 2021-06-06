@@ -21,8 +21,8 @@ foreach(TEMPITEM ${IMGUI_SOURCES_FOR_GLFW})
 	message(STATUS ${TEMPITEM})
 endforeach()
 
+find_package(GLEW REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
-find_package(glad CONFIG REQUIRED)
 
 add_executable(testexe
 	${IMGUI_HEADERS_FOR_GLFW}
@@ -43,8 +43,8 @@ PRIVATE
 	Application.cpp
 )
 
+target_link_libraries(testexe PRIVATE GLEW::GLEW)
 target_link_libraries(testexe PRIVATE glfw)
-target_link_libraries(testexe PRIVATE glad::glad)
 
 
 

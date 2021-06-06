@@ -1,11 +1,13 @@
 
-#include <ydb/Application.h>
-#include <GLFW/glfw3.h>
 #include <exception>
 #include <stdexcept>
-#include "imgui/imgui.h"
-#include <glad/glad.h>
 
+#include <gl/glew.h>
+#include <GLFW/glfw3.h>
+
+#include <ydb/Application.h>
+
+#include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
 #include "imgui/backends/imgui_impl_glfw.h"
 
@@ -47,8 +49,8 @@ Application::Application(const Config& config) {
         else {
             int  count;
             auto monitors = glfwGetMonitors(&count);
-            if (conf.monitor < count)
-                monitor = monitors[conf.monitor];
+            if (_config.monitor < count)
+                monitor = monitors[_config.monitor];
             else
                 monitor = glfwGetPrimaryMonitor();
         }
@@ -63,7 +65,7 @@ Application::Application(const Config& config) {
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         glfwGetMonitorContentScale(monitor, &xscale, &yscale);
         // glfwWindowHint(GLFW_AUTO_ICONIFY, false);
-        _window = glfwCreateWindow((int)(mode->width), (int)(mode->height), conf.title.c_str(), monitor, NULL);
+        _window = glfwCreateWindow((int)(mode->width), (int)(mode->height), _config.title.c_str(), monitor, NULL);
     } else {
 		glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &xscale, &yscale);
 		_window = glfwCreateWindow((int)(_config.width*xscale), (int)(_config.height*yscale), _config.title.c_str(), NULL, NULL);
@@ -72,8 +74,8 @@ Application::Application(const Config& config) {
 	glfwMakeContextCurrent(_window);
 	// set_vsync
 	
-	gladLoadGL();
-	
+	//gladLoadGL();
+	glewInit();
 	
 }
 
